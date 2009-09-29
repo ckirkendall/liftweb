@@ -1,4 +1,4 @@
-/*
+  /*
  * Copyright 2009 WorldWide Conferencing, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,4 +37,4 @@ trait Actor extends SimpleActor[Any] {
   def !![R](message: Any, timeout: Long): Option[R]
   def start: Unit
   def stop: Unit
-git}
+}
