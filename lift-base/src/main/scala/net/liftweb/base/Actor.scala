@@ -1,4 +1,4 @@
-/*
+  /*
  * Copyright 2009 WorldWide Conferencing, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,10 +25,14 @@ trait SimplestActor extends SimpleActor[Any]
 trait TypedActor[T, R] extends SimpleActor[T] {
   def !?(param: T): R
   def !?(timeout: Long, param: T): Option[R]
-
   def !!(param: T): Future[R]
 }
 
-trait Future[T]
-
-trait Actor extends SimplestActor with TypedActor[Any, Any]
+trait Actor extends SimpleActor[Any] {
+  def !(message: Any): Unit
+  def !?[T](message: Any): T
+  def !![R](message: Any): Option[R]
+  def !![R](message: Any, timeout: Long): Option[R]
+  def start: Unit
+  def stop: Unit
+}
