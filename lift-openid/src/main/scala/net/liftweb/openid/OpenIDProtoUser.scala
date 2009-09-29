@@ -22,6 +22,7 @@ import http._
 import js._
 import JsCmds._
 import sitemap.{Loc, Menu}
+import base._
 import util._
 import Helpers._
 

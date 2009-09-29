@@ -20,6 +20,7 @@ import _root_.scala.xml.{NodeSeq, Elem}
 import _root_.net.liftweb.http.S
 import _root_.net.liftweb.http.S._
 import _root_.net.liftweb.util._
+import _root_.net.liftweb.base._
 
 class MappedTextarea[T<:Mapper[T]](owner : T, maxLen: Int) extends MappedString[T](owner, maxLen) {
   /**

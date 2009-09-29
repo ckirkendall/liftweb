@@ -21,7 +21,8 @@ import _root_.java.lang.reflect.Method
 import _root_.java.sql.{ResultSet, Types, PreparedStatement, Statement}
 import _root_.scala.xml.{Elem, Node, Text, NodeSeq, Null, TopScope, UnprefixedAttribute, MetaData}
 import _root_.net.liftweb.util.Helpers._
-import _root_.net.liftweb.util.{Box, Empty, Full, Failure, NamedPF, FieldError}
+import _root_.net.liftweb.base.{Box, Empty, Full, Failure}
+import _root_.net.liftweb.util.{NamedPF, FieldError}
 import _root_.net.liftweb.http.{LiftRules, S, SHtml}
 import _root_.java.util.Date
 import _root_.net.liftweb.http.js._

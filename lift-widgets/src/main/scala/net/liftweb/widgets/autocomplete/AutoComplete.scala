@@ -2,6 +2,7 @@ package net.liftweb.widgets.autocomplete
 
 
 import _root_.scala.xml.{NodeSeq, Node, Elem, PCData, Text, Unparsed}
+import _root_.net.liftweb.base._
 import _root_.net.liftweb.util._
 import _root_.net.liftweb.http._
 import _root_.net.liftweb.http.js._

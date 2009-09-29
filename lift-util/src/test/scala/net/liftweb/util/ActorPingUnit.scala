@@ -25,7 +25,7 @@ import base._
 class ActorPingUnitTest extends JUnit4(ActorPingUnit)
 object ActorPingUnit extends Specification with PingedService with WaitFor {
   def pingService = {
-    service.start
+    // service.start
     ActorPing.schedule(service, Alive, TimeSpan(10))
     waitFor(100.ms)
     service.pinged must beTrue

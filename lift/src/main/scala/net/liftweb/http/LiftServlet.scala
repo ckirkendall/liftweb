@@ -19,6 +19,7 @@ import _root_.java.net.URLDecoder
 import _root_.scala.xml.{Node, NodeSeq,Group, Elem, MetaData, Null, XML, Comment, Text}
 import _root_.scala.collection.immutable.HashMap
 import _root_.scala.xml.transform._
+import _root_.net.liftweb.base._
 import _root_.net.liftweb.util.Helpers._
 import _root_.net.liftweb.util._
 import _root_.net.liftweb.util.Helpers
@@ -46,8 +47,8 @@ class LiftServlet {
     try {
       LiftRules.ending = true
       LiftRules.runUnloadHooks()
-      tryo(Scheduler.snapshot) // pause the Actor scheduler so we don't have threading issues
-      Scheduler.shutdown
+      //tryo(Scheduler.snapshot) // pause the Actor scheduler so we don't have threading issues
+      //Scheduler.shutdown
       ActorPing.shutdown
       LAScheduler.shutdown
       Log.debug("Destroyed Lift handler.")

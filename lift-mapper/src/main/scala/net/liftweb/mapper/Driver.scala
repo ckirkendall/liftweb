@@ -18,6 +18,7 @@ package net.liftweb.mapper
 
 import _root_.java.sql.{Connection,PreparedStatement,ResultSet,Statement}
 import _root_.net.liftweb.util._
+import _root_.net.liftweb.base._
 
 /**
  * JDBC Driver Abstraction base class. New driver types should extend this base

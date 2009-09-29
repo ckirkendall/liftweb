@@ -4,6 +4,7 @@ import _root_.scala.xml._
 import _root_.scala.collection.immutable.{Map}
 import _root_.net.liftweb.http._
 import _root_.net.liftweb.http.js._
+import _root_.net.liftweb.base._
 import _root_.net.liftweb.util._
 
 object WithParamVar extends RequestVar[Map[String, NodeSeq]](Map.empty)

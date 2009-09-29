@@ -1,7 +1,7 @@
 package net.liftweb.mapper
 
 /*
- * Copyright 2006-2008 WorldWide Conferencing, LLC
+ * Copyright 2006-2009 WorldWide Conferencing, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package net.liftweb.mapper
  */
 
 import _root_.net.liftweb.util._
+import _root_.net.liftweb.base._
 import Helpers._
 
 trait MetaProtoTag[ModelType <: ProtoTag[ModelType]] extends KeyedMetaMapper[Long, ModelType] {

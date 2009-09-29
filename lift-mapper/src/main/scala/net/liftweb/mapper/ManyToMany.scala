@@ -2,6 +2,7 @@ package net.liftweb.mapper
 
 
 import _root_.net.liftweb.util._
+import _root_.net.liftweb.base._
 
 /**
  * Add this trait to a Mapper to add support for many-to-many relationships

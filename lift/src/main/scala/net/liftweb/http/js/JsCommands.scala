@@ -19,6 +19,7 @@ import _root_.scala.xml.{NodeSeq, Group, Unparsed, Elem}
 import _root_.net.liftweb.util.Helpers._
 import _root_.net.liftweb.util.Helpers
 import _root_.net.liftweb.util.TimeHelpers
+import _root_.net.liftweb.base._
 import _root_.net.liftweb.util._
 import _root_.scala.xml.{Node, SpecialNode, Text}
 

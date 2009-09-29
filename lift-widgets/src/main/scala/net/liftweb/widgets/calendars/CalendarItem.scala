@@ -18,7 +18,7 @@ package net.liftweb.widgets.calendars;
 
 import _root_.java.util.Calendar
 import _root_.java.util.Calendar._
-import _root_.net.liftweb.util.{Box, Empty, Full}
+import _root_.net.liftweb.base.{Box, Empty, Full}
 
 object CalendarItem {
   def apply(id: String, start: Calendar, calendarType: CalendarType.Value) = new CalendarItem(id, start, calendarType)

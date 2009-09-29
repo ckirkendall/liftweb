@@ -2,7 +2,8 @@ package net.liftweb.http.testing;
 
 
 import _root_.net.liftweb.util.Helpers._
-import _root_.net.liftweb.util.{Helpers, Box, Full, Empty, Failure}
+import _root_.net.liftweb.base.{ Box, Full, Empty, Failure}
+import _root_.net.liftweb.util.{Helpers}
 import _root_.scala.collection.mutable.ListBuffer
 
 class TestRunner(clearDB: Box[() => Any], setupDB: Box[() => Any],beforeAssertListeners: List[String => Any],  afterAssertListeners: List[(String, Boolean) => Any],

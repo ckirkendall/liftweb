@@ -18,6 +18,7 @@ package net.liftweb.mapper
 import _root_.org.specs._
 import _root_.org.specs.runner.JUnit3
 import _root_.org.specs.runner.ConsoleRunner
+import _root_.net.liftweb.base._
 import _root_.net.liftweb.util._
 import Helpers._
 import _root_.java.sql.{Connection, DriverManager}

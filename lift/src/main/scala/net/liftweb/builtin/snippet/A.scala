@@ -18,6 +18,7 @@ package net.liftweb.builtin.snippet
 import scala.xml._
 import net.liftweb.http._
 import net.liftweb.http.js._
+import _root_.net.liftweb.base._
 import net.liftweb.util._
 
 object A extends DispatchSnippet {

@@ -17,7 +17,7 @@
 package net.liftweb.http.js
 
 import _root_.net.liftweb.http.js._
-import _root_.net.liftweb.util.{Box, Full, Empty}
+import _root_.net.liftweb.base.{Box, Full, Empty}
 
 import _root_.scala.xml.{Elem, NodeSeq}
 

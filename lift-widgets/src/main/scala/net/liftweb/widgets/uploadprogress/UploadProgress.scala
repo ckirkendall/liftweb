@@ -5,7 +5,8 @@ import _root_.net.liftweb.http.{SessionVar,Req,GetRequest,PlainTextResponse,Json
                                 LiftRules,OnDiskFileParamHolder,S,ResourceServer,LiftResponse}
 import _root_.net.liftweb.http.js.JsCmds._
 import _root_.net.liftweb.http.js.JE._
-import _root_.net.liftweb.util.{Box,Empty,Failure,Full,Log}
+import _root_.net.liftweb.base.{Box,Empty,Failure,Full}
+import _root_.net.liftweb.util.{Log}
 
 /**
  * A helper widget that makes it easy to do upload

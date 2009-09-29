@@ -16,6 +16,7 @@ package net.liftweb.record.field
 import _root_.java.math.{BigDecimal => JBigDecimal,MathContext,RoundingMode}
 import _root_.scala.xml._
 import _root_.net.liftweb.util._
+import _root_.net.liftweb.base._
 import _root_.net.liftweb.http.{S}
 import Helpers._
 import S._

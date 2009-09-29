@@ -4,6 +4,7 @@ package net.liftweb.http.provider.servlet
 import _root_.scala.collection.mutable.{ListBuffer}
 import _root_.java.io.{OutputStream}
 import _root_.javax.servlet.http.{HttpServletResponse, Cookie}
+import _root_.net.liftweb.base._
 import _root_.net.liftweb.util._
 import Helpers._
 

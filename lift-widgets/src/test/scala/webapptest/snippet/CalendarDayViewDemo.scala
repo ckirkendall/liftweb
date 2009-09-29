@@ -1,5 +1,5 @@
 /*
-* Copyright 2007-2008 WorldWide Conferencing, LLC
+* Copyright 2007-2009 WorldWide Conferencing, LLC
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -23,7 +23,8 @@ import _root_.net.liftweb.http.SHtml._
 import _root_.net.liftweb.http.{RequestVar}
 import _root_.net.liftweb.util.Helpers._
 import _root_.net.liftweb.util._
-import _root_.net.liftweb.util.Box._
+import _root_.net.liftweb.base._
+import _root_.net.liftweb.base.Box._
 import _root_.net.liftweb.http.js._
 import _root_.java.util.{Calendar, Locale}
 import _root_.java.util.Calendar._

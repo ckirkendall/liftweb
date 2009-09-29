@@ -6,6 +6,7 @@ import _root_.net.liftweb.http.js._
 import _root_.net.liftweb.sitemap._
 import JsCmds._
 import JE._
+import _root_.net.liftweb.base._
 import _root_.net.liftweb.util._
 import Helpers._
 

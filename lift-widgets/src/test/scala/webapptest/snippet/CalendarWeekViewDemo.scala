@@ -7,7 +7,8 @@ import _root_.net.liftweb.http.SHtml._
 import _root_.net.liftweb.http.{RequestVar}
 import _root_.net.liftweb.util.Helpers._
 import _root_.net.liftweb.util._
-import _root_.net.liftweb.util.Box._
+import _root_.net.liftweb.base._
+import _root_.net.liftweb.base.Box._
 import _root_.net.liftweb.http.js._
 import _root_.java.util.{Calendar, Locale}
 import _root_.java.util.Calendar._

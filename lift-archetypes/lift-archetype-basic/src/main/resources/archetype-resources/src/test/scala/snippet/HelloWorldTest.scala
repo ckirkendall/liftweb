@@ -6,6 +6,7 @@ import org.specs.runner.ConsoleRunner
 import net.liftweb._
 import http._
 import net.liftweb.util._
+import net.liftweb.base._
 import org.specs.matcher._
 import org.specs.specification._
 import Helpers._

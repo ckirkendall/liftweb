@@ -2,7 +2,7 @@ package net.liftweb.ext_api.facebook;
 
 import _root_.net.liftweb.http.{S, SessionVar}
 import _root_.net.liftweb.util.Helpers._
-import _root_.net.liftweb.util.{Box, Empty, Failure, Full}
+import _root_.net.liftweb.base.{Box, Empty, Failure, Full}
 
 object Facebook {
   object SessionKey extends SessionVar[Box[String]](sessionKey)

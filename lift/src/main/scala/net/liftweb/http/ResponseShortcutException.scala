@@ -15,6 +15,7 @@
  */
 package net.liftweb.http
 
+import _root_.net.liftweb.base._
 import _root_.net.liftweb.util._
 
 class ResponseShortcutException(_response: => LiftResponse, val doNotices: Boolean) extends Exception("Shortcut") {

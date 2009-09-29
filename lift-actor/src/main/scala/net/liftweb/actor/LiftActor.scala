@@ -135,11 +135,11 @@ trait SpecializedLiftActor[T] extends SimpleActor[T]  {
       while (true) {
         val pf = messageHandler
         baseMailbox.synchronized {putListIntoMB()}
-        baseMailbox.next.find(v => pf.isDefinedAt(v.item)) match {
+        baseMailbox.next.find(mb => testTranslate(pf.isDefinedAt)(mb.item)) match {
           case Full(mb) =>
             mb.remove()
             try {
-              pf(mb.item)
+              execTranslate(pf)(mb.item)
             } catch {
               case e: Exception => if (eh.isDefinedAt(e)) eh(e)
             }
@@ -169,9 +169,9 @@ trait SpecializedLiftActor[T] extends SimpleActor[T]  {
     }
   }
 
-  protected def testTranslate[R](v: T, f: T => R) = f(v)
+  protected def testTranslate[R](f: T => R)(v: T): R = f(v)
 
-  protected def execTranslate[R](v: T, f: T => R) = f(v)
+  protected def execTranslate[R](f: T => R)(v: T): R = f(v)
 
   protected def messageHandler: PartialFunction[T, Unit]
 
@@ -180,11 +180,18 @@ trait SpecializedLiftActor[T] extends SimpleActor[T]  {
   }
 }
 
+private final case class MsgWithResp(msg: Any, future: LAFuture[Any])
+
 trait LiftActor extends SpecializedLiftActor[Any] with Actor {
   @volatile
   private[this] var responseFuture: LAFuture[Any] = null
 
-  private case class MsgWithResp(msg: Any, future: LAFuture[Any])
+
+
+  protected final def forwardMessageTo(msg: Any, forwardTo: LiftActor) {
+    if (null ne responseFuture) forwardTo ! MsgWithResp(msg, responseFuture)
+    else forwardTo ! msg
+  }
 
   def !?(msg: Any): Any = {
     val future = new LAFuture[Any]
@@ -204,12 +211,12 @@ trait LiftActor extends SpecializedLiftActor[Any] with Actor {
     future
   }
 
-  override protected def testTranslate[R](v: Any, f: Any => R) = v match {
+  override protected def testTranslate[R](f: Any => R)(v: Any) = v match {
     case MsgWithResp(msg, _) => f(msg)
     case v => f(v)
   }
 
-  override protected def execTranslate[R](v: Any, f: Any => R) = v match {
+  override protected def execTranslate[R](f: Any => R)(v: Any) = v match {
     case MsgWithResp(msg, future) =>
       responseFuture = future
       try {
@@ -220,7 +227,10 @@ trait LiftActor extends SpecializedLiftActor[Any] with Actor {
     case v => f(v)
   }
 
+
   protected def reply(v: Any) {
-    if (null ne responseFuture) responseFuture.satisfy(v)
+    if (null ne responseFuture) {
+      responseFuture.satisfy(v)
+    }
   }
 }

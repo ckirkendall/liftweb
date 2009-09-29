@@ -15,7 +15,7 @@
  */
 package net.liftweb.http.auth
 
-import _root_.net.liftweb.util.{Box, Full, Empty}
+import _root_.net.liftweb.base.{Box, Full, Empty}
 
 object AuthRole {
   def apply(roleName: String): Role = new Role {

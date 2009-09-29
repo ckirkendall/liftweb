@@ -17,6 +17,7 @@ package net.liftweb.http.provider
 
 import _root_.java.io.{InputStream}
 import _root_.java.net.{URL}
+import _root_.net.liftweb.base._
 import _root_.net.liftweb.util._
 
 /**

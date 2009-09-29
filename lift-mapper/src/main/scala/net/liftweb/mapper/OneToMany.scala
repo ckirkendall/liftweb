@@ -49,7 +49,7 @@ trait OneToMany[K,T<:KeyedMapper[K, T]] extends KeyedMapper[K,T] { this: T =>
       ()=>{
         val ret = meta.findAll(By(foreign, primaryKeyField) :: qp.toList : _*)
         for(child <- ret) {
-          foreign.actualField(child).asInstanceOf[MappedForeignKey[K,O,T]].primeObj(net.liftweb.util.Full(OneToMany.this : T))
+          foreign.actualField(child).asInstanceOf[MappedForeignKey[K,O,T]].primeObj(net.liftweb.base.Full(OneToMany.this : T))
         }
         ret
       },
@@ -174,7 +174,7 @@ trait OneToMany[K,T<:KeyedMapper[K, T]] extends KeyedMapper[K,T] { this: T =>
      * Returns true if all children were saved successfully.
      */
     def save = {
-      import net.liftweb.util.{Full, Empty}
+      import net.liftweb.base.{Full, Empty}
       unlinked foreach {u =>
         val f = foreign(u)
         if(f.obj.map(_ eq OneToMany.this) openOr true) // obj is Empty or this
@@ -257,7 +257,7 @@ class LongMappedMapper[T<:Mapper[T], O<:KeyedMapper[Long,O]](theOwner: T, foreig
 trait LongMappedForeignMapper[T<:Mapper[T],O<:KeyedMapper[Long,O]]
                               extends MappedLongForeignKey[T,O]
                               with LifecycleCallbacks {
-  import net.liftweb.util.{Box, Empty, Full}
+  import net.liftweb.base.{Box, Empty, Full}
   //private var inited = false
   //private var _foreign: Box[O] = Empty
   def foreign = obj //_foreign

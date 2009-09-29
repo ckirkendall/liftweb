@@ -2,6 +2,7 @@ package net.liftweb.http.testing
 
 import _root_.net.liftweb.util.Helpers._
 import _root_.net.liftweb.util._
+import _root_.net.liftweb.base._
 import _root_.scala.xml._
 import _root_.java.util.{Map => JavaMap, Set => JavaSet, Iterator => JavaIterator, List => JavaList}
 import _root_.java.util.regex.Pattern

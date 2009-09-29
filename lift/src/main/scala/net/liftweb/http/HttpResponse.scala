@@ -15,6 +15,7 @@
  */
 package net.liftweb.http
 
+import _root_.net.liftweb.base._
 import _root_.scala.xml.{Node, Unparsed, Group, NodeSeq}
 import _root_.net.liftweb.util._
 import _root_.net.liftweb.http.provider._

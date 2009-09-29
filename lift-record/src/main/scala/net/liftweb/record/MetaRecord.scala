@@ -15,6 +15,7 @@ package net.liftweb.record
 
 import net.liftweb._
 import util._
+import base._
 import scala.collection.mutable.{ListBuffer}
 import scala.xml._
 import net.liftweb.http.js.{JsExp, JE, JsObj}

@@ -17,7 +17,7 @@ package net.liftweb.http.provider
 
 import _root_.java.io.{InputStream}
 import _root_.java.util.{Locale}
-import _root_.net.liftweb.util.{Box}
+import _root_.net.liftweb.base.{Box}
 
 /**
  * The representation of a HTTP request state 

@@ -3,6 +3,7 @@ package ${packageName}.lib
 import net.liftweb._
 import http._
 import util._
+import base._
 import _root_.java.util.Date
 
 /**

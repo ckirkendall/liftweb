@@ -3,7 +3,8 @@ package net.liftweb.mapper.view
 import net.liftweb.http.{SHtml, S, DispatchSnippet}
 import S.?
 import net.liftweb.util.BindPlus._
-import net.liftweb.util.{Box, Full, Empty, Helpers, BindHelpers}
+import net.liftweb.util.{Helpers, BindHelpers}
+import net.liftweb.base.{Box, Full, Empty}
 import Helpers._
 
 import net.liftweb.mapper.{Mapper,

@@ -20,6 +20,7 @@ import _root_.scala.xml.{NodeSeq, Elem, Text, UnprefixedAttribute, Null, MetaDat
                          PrefixedAttribute,
                          Group, Node, HasKeyValue}
 import _root_.scala.collection.immutable.{ListMap, TreeMap}
+import _root_.net.liftweb.base._
 import _root_.net.liftweb.util._
 import Helpers._
 import js._

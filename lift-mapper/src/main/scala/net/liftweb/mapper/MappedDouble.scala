@@ -18,6 +18,7 @@ package net.liftweb.mapper
 
 import _root_.java.sql.{ResultSet, Types}
 import _root_.java.lang.reflect.Method
+import _root_.net.liftweb.base._
 import _root_.net.liftweb.util._
 import Helpers._
 import _root_.java.util.Date

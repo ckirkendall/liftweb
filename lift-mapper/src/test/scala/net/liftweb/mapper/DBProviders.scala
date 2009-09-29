@@ -15,7 +15,8 @@
  */
 package net.liftweb.mapper
 
-import _root_.net.liftweb.util.{Helpers, Log, Box, Empty, Full, Failure}
+import _root_.net.liftweb.base.{Box, Empty, Full, Failure}
+import _root_.net.liftweb.util.{Helpers, Log}
 import Helpers._
 import _root_.scala.testing.SUnit
 import _root_.net.liftweb.mapper._

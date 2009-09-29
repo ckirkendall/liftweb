@@ -16,6 +16,7 @@
 package net.liftweb.sitemap
 
 import _root_.net.liftweb.http._
+import _root_.net.liftweb.base._
 import _root_.net.liftweb.util._
 import Helpers._
 

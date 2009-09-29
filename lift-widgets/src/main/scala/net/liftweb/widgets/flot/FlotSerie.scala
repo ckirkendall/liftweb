@@ -17,6 +17,7 @@
 package net.liftweb.widgets.flot
 
 import _root_.net.liftweb.util._
+import _root_.net.liftweb.base._
 
 /**
  * Serie of data

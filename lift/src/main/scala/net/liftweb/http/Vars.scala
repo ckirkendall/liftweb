@@ -15,6 +15,7 @@
  */
 package net.liftweb.http
 
+import _root_.net.liftweb.base._
 import _root_.net.liftweb.util._
 import Helpers._
 import _root_.scala.collection.mutable.{HashMap, ListBuffer}

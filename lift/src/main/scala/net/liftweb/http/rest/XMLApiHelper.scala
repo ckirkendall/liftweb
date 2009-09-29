@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 WorldWide Conferencing, LLC
+ * Copyright 2009 WorldWide Conferencing, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package net.liftweb.http.rest
 
+import _root_.net.liftweb.base._
 import _root_.net.liftweb._
 import util._
 import Helpers._

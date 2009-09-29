@@ -21,7 +21,7 @@ import _root_.java.util.{Calendar, Locale}
 import _root_.java.util.Calendar._
 import _root_.java.text.SimpleDateFormat
 import _root_.net.liftweb.util.Helpers._
-import _root_.net.liftweb.util.{Box, Full, Empty}
+import _root_.net.liftweb.base.{Box, Full, Empty}
 import _root_.net.liftweb.http.{LiftRules}
 import _root_.net.liftweb.http.js._
 import _root_.net.liftweb.http.js.jquery._

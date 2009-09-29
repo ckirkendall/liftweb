@@ -16,6 +16,8 @@
 
 package net.liftweb.http
 
+import _root_.net.liftweb.base._
+import _root_.net.liftweb.actor._
 import _root_.scala.collection.mutable.{ListBuffer}
 import _root_.net.liftweb.util.Helpers._
 import _root_.net.liftweb.util._
@@ -32,22 +34,23 @@ import _root_.java.util.concurrent.atomic.AtomicLong
  * actor terminates,this actor captures the Exit messag, executes failureFuncs
  * and resurects the actor.
  */
-object ActorWatcher extends Actor {
+object ActorWatcher extends scala.actors.Actor {
+  import scala.actors.Actor._
   def act = loop {
     react {
-      case Exit(actor: Actor, why: Throwable) =>
+      case scala.actors.Exit(actor: scala.actors.Actor, why: Throwable) =>
         failureFuncs.foreach(f => tryo(f(actor, why)))
 
       case _ =>
     }
   }
 
-  private def startAgain(a: Actor, ignore: Throwable) {
+  private def startAgain(a: scala.actors.Actor, ignore: Throwable) {
     a.start
     a ! RelinkToActorWatcher
   }
 
-  private def logActorFailure(actor: Actor, why: Throwable) {
+  private def logActorFailure(actor: scala.actors.Actor, why: Throwable) {
     Log.error("The ActorWatcher restarted "+actor+" because "+why, why)
   }
 
@@ -55,7 +58,7 @@ object ActorWatcher extends Actor {
    * If there's something to do in addition to starting the actor up, pre-pend the
    * actor to this List
    */
-  var failureFuncs: List[(Actor, Throwable) => Unit] = logActorFailure _ ::
+  @volatile var failureFuncs: List[(scala.actors.Actor, Throwable) => Unit] = logActorFailure _ ::
   startAgain _ :: Nil
 
   this.trapExit = true
@@ -147,15 +150,12 @@ case class RemoveAListener(who: Actor)
  * the message that you want sent to all subscribers.
  */
 trait ListenerManager {
-  self: Actor =>
+  self: LiftActor =>
   private var listeners: List[Actor] = Nil
 
-  def act = loop {
-    react {
+   protected def messageHandler: PartialFunction[Any, Unit] =
       highPriority orElse mediumPriority orElse
       listenerService orElse lowPriority
-    }
-  }
 
   protected def listenerService: PartialFunction[Any, Unit] =
   {
@@ -199,11 +199,13 @@ trait CometListenee extends CometActor {
   }
 }
 
+trait LiftCometActor extends SimplestActor
+
 /**
  * Takes care of the plumbing for building Comet-based Web Apps
  */
 @serializable
-trait CometActor extends Actor with BindHelpers {
+trait CometActor extends LiftCometActor with LiftActor with BindHelpers {
   val uniqueId = Helpers.nextFuncName
   private var spanId = uniqueId
   private var lastRenderTime = Helpers.nextNum
@@ -249,7 +251,6 @@ trait CometActor extends Actor with BindHelpers {
     this._defaultXml = defaultXml
     this._name = name
     this._attributes = attributes
-    this.start()
   }
 
   def defaultPrefix: Box[String] = Empty
@@ -302,12 +303,43 @@ trait CometActor extends Actor with BindHelpers {
   (new PrefixedAttribute("lift", "when", Text(time.toString), Null))
 
 
+  def messageHandler = {
+    val what = composeFunction
+    val myPf: PartialFunction[Any, Unit] = new PartialFunction[Any, Unit] {
+      def apply(in: Any): Unit =
+      CurrentCometActor.doWith(Full(CometActor.this)) {
+        S.initIfUninitted(theSession) {
+          S.functionLifespan(true) {
+            what.apply(in)
+            if (S.functionMap.size > 0) {
+              theSession.updateFunctionMap(S.functionMap,
+                                           uniqueId, lastRenderTime)
+              S.clearFunctionMap
+            }
+          }
+        }
+      }
+
+      def isDefinedAt(in: Any): Boolean =
+      CurrentCometActor.doWith(Full(CometActor.this)) {
+        S.initIfUninitted(theSession) {
+          S.functionLifespan(true) {
+            what.isDefinedAt(in)
+          }
+        }
+      }
+    }
+
+   myPf
+  }
+  /*
   def act = {
     loop {
       react(composeFunction)
     }
-  }
+  }*/
 
+  /*
   override def react(pf: PartialFunction[Any, Unit]) = {
     val myPf: PartialFunction[Any, Unit] = new PartialFunction[Any, Unit] {
       def apply(in: Any): Unit =
@@ -335,7 +367,7 @@ trait CometActor extends Actor with BindHelpers {
     }
 
     super.react(myPf)
-  }
+  }*/
 
   def fixedRender: Box[NodeSeq] = Empty
 
@@ -350,20 +382,17 @@ trait CometActor extends Actor with BindHelpers {
   }
 
   private lazy val _mediumPriority : PartialFunction[Any, Unit] = {
-    case RelinkToActorWatcher =>
-      link(ActorWatcher)
-
     case l @ Unlisten(seq) =>
       lastListenTime = millis
       askingWho match {
-        case Full(who) => who forward l
+        case Full(who) => forwardMessageTo(l, who) // forward l
         case _ => listeners = listeners.filter(_._1 != seq)
       }
 
     case l @ Listen(when, seqId, toDo) =>
       lastListenTime = millis
       askingWho match {
-        case Full(who) => who forward l
+        case Full(who) => forwardMessageTo(l, who) // who forward l
         case _ =>
           if (when < lastRenderTime) {
             toDo(AnswerRender(new XmlOrJsCmd(spanId, lastRendering,
@@ -384,13 +413,13 @@ trait CometActor extends Actor with BindHelpers {
       }
 
     case PerformSetupComet =>
-      this ! RelinkToActorWatcher
+      // this ! RelinkToActorWatcher
       localSetup
       performReRender(true)
 
     case AskRender =>
       askingWho match {
-        case Full(who) => who forward AskRender
+        case Full(who) => forwardMessageTo(AskRender, who) //  forward AskRender
         case _ => if (!deltas.isEmpty || devMode) performReRender(false);
           reply(AnswerRender(new XmlOrJsCmd(spanId, lastRendering, buildSpan _, notices toList),
                              whosAsking openOr this, lastRenderTime, true))
@@ -449,9 +478,9 @@ trait CometActor extends Actor with BindHelpers {
       Log.info("The CometActor "+this+" Received Shutdown")
       askingWho.foreach(_ ! ShutDown)
       theSession.removeCometActor(this)
-      unlink(ActorWatcher)
+      // unlink(ActorWatcher)
       _localShutdown()
-      self.exit("Politely Asked to Exit")
+      // self.exit("Politely Asked to Exit")
 
     case PartialUpdateMsg(cmdF) =>
       val cmd: JsCmd = cmdF.apply

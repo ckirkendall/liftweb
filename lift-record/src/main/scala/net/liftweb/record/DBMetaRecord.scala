@@ -15,6 +15,7 @@ package net.liftweb.record
 
 import _root_.net.liftweb._
 import util._
+import base._
 import _root_.scala.xml._
 import _root_.net.liftweb.mapper.{ConnectionIdentifier, Safe, DefaultConnectionIdentifier, DB, KeyObfuscator, SuperConnection, QueryParam}
 import _root_.java.sql.{ResultSet, Types, PreparedStatement, Statement}

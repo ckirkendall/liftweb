@@ -16,6 +16,7 @@
 package net.liftweb.http.js
 
 import _root_.scala.xml._
+import _root_.net.liftweb.base._
 import _root_.net.liftweb.util._
 import Helpers._
 

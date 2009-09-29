@@ -2,6 +2,7 @@ package ${packageName}.snippet
 
 import _root_.scala.xml.{NodeSeq, Text}
 import _root_.net.liftweb.util._
+import _root_.net.liftweb.base._
 import _root_.java.util.Date
 import ${packageName}.lib._
 import Helpers._

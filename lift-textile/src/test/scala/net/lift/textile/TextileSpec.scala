@@ -21,6 +21,7 @@ import _root_.org.specs.Sugar._
 
 import _root_.scala.xml._
 
+import _root_.net.liftweb.base._
 import _root_.net.liftweb.util._
 
 class TextileSpecTest extends Runner(TextileSpec) with JUnit with Console

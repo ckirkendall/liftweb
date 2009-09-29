@@ -16,6 +16,7 @@
 package net.liftweb.http
 
 import _root_.scala.collection.immutable.TreeMap
+import _root_.net.liftweb.base._
 import _root_.net.liftweb.util._
 import provider._
 

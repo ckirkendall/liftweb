@@ -1,7 +1,7 @@
 package net.liftweb.mapper
 
 /*
- * Copyright 2006-2008 WorldWide Conferencing, LLC
+ * Copyright 2006-2009 WorldWide Conferencing, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import _root_.java.sql.{ResultSet, Types}
 import _root_.java.lang.reflect.Method
 import _root_.net.liftweb.util.Helpers._
 import _root_.net.liftweb.util._
+import _root_.net.liftweb.base._
 import _root_.java.util.Date
 import _root_.scala.xml.{NodeSeq, Text, Unparsed}
 import _root_.net.liftweb.http.{S, SHtml}

@@ -16,6 +16,8 @@ package net.liftweb.paypal
 import _root_.net.liftweb.util.Helpers
 import Helpers._
 import _root_.net.liftweb.util._
+import _root_.net.liftweb.base._
+import _root_.net.liftweb.actor._
 import _root_.net.liftweb.http._
 import _root_.org.apache.commons.httpclient._
 import _root_.org.apache.commons.httpclient.methods._
@@ -441,18 +443,17 @@ trait PaypalIPN extends BasePaypalTrait {
    */
   val MaxRetry = 6
 
-  protected object requestQueue extends Actor {
-    def act = {
-      loop {
-        react {
-          case PingMe => ActorPing.schedule(this, PingMe, 10 seconds)
-
-          case IPNRequest(r, cnt, _) if cnt > MaxRetry => // discard the transaction
-
+  protected object requestQueue extends LiftActor {
+    protected def messageHandler = 
+      {
+        case PingMe => ActorPing.schedule(this, PingMe, 10 seconds)
+	
+        case IPNRequest(r, cnt, _) if cnt > MaxRetry => // discard the transaction
+	  
           case IPNRequest(r, cnt, when) if when <= millis =>
             tryo {
               val resp = PaypalIPN(r, mode, connection)
-
+	      
               for (info <-  buildInfo(resp, r);
                    stat <- info.paymentStatus) yield {
                 actions((stat, info, r))
@@ -460,16 +461,11 @@ trait PaypalIPN extends BasePaypalTrait {
               }
             } match {
               case Full(Full(true)) => // it succeeded
-              case _ => // retry
-                this ! IPNRequest(r, cnt + 1, millis + (1000 * 8 << (cnt + 2)))
+		case _ => // retry
+                  this ! IPNRequest(r, cnt + 1, millis + (1000 * 8 << (cnt + 2)))
             }
-
-          case _ =>
-        }
       }
-    }
   }
-  requestQueue.start
   requestQueue ! PingMe
 }
 

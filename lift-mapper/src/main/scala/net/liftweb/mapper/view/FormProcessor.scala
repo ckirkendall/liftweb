@@ -4,7 +4,8 @@ import scala.xml.{Group, Elem, NodeSeq}
 import scala.collection.mutable.{Map => mMap}
 
 import net.liftweb.http.SHtml
-import net.liftweb.util.{Helpers, Full, Empty}
+import net.liftweb.util.{Helpers}
+import net.liftweb.base.{Full, Empty}
 
 
 /**

@@ -21,12 +21,13 @@ import _root_.org.specs.runner._
 import _root_.java.util.concurrent._
 import Helpers._
 import base._
+import net.liftweb.actor._
 
 class ActorPingSpecTest extends JUnit4(ActorPingSpec)
 object ActorPingSpec extends Specification with PingedService with WaitFor {
   "The ActorPing object" should { doBefore { ActorPing.restart }
     "provide a schedule method to ping an actor regularly" in {
-      service.start
+      // service.start
       ActorPing.schedule(service, Alive, TimeSpan(10))
       waitFor(100.ms)
       service.pinged must beTrue
@@ -37,14 +38,19 @@ trait PingedService {
   case object Alive
   val service = new Service
 
-  class Service extends Actor {
-    var pinged = false
+  class Service extends LiftActor {
+    @volatile var pinged = false
+    /*
     def act() {
       while (true) {
         receive {
           case Alive => {pinged = true; exit()}
         }
       }
+    }
+    */
+    protected def messageHandler = {
+          case Alive => {pinged = true /*; exit() */}
     }
   }
 }

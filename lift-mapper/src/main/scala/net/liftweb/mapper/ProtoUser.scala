@@ -26,6 +26,7 @@ import _root_.net.liftweb.sitemap._
 import _root_.net.liftweb.sitemap.Loc._
 import _root_.net.liftweb.util.Helpers._
 import _root_.net.liftweb.util._
+import _root_.net.liftweb.base._
 import _root_.net.liftweb.util.Mailer._
 import S._
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2008 WorldWide Conferencing, LLC
+ * Copyright 2007-2009 WorldWide Conferencing, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,8 @@ import _root_.java.util.{List => JList}
 import _root_.java.util.concurrent.atomic.AtomicReference
 import _root_.javax.servlet.http.{HttpServletRequest, HttpServletResponse}
 import _root_.net.liftweb.http.LiftFilter
-import _root_.net.liftweb.util.{Box, ClassHelpers, Log, Slf4jLogBoot}
+import _root_.net.liftweb.util.{ClassHelpers, Log, Slf4jLogBoot}
+import _root_.net.liftweb.base.{Box}
 import _root_.org.ops4j.pax.swissbox.extender._
 import _root_.org.ops4j.pax.web.service.WebContainer
 import _root_.org.osgi.framework.{Bundle, BundleActivator, BundleContext}

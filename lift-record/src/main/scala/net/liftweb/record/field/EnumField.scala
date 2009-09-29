@@ -15,6 +15,7 @@ package net.liftweb.record.field
 
 import scala.xml._
 import net.liftweb.util._
+import net.liftweb.base._
 import net.liftweb.http.{S, SHtml}
 import net.liftweb.http.js._
 import S._

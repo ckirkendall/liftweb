@@ -17,9 +17,9 @@ package net.liftweb.builtin.snippet
 
 import scala.xml._
 import net.liftweb.http._
+import _root_.net.liftweb.base._
 import net.liftweb.util._
 import Helpers._
-import Box._
 
 object Comet extends DispatchSnippet {
 

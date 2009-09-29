@@ -1,7 +1,7 @@
 package net.liftweb.machine;
 
 /*                                                *\
- (c) 2006-2008 WorldWide Conferencing, LLC
+ (c) 2006-2009 WorldWide Conferencing, LLC
  Distributed under an Apache License
  http://www.apache.org/licenses/LICENSE-2.0
  \*                                                 */
@@ -10,6 +10,8 @@ import _root_.net.liftweb.mapper._
 import _root_.net.liftweb.util.Helpers._
 import _root_.scala.collection.mutable.{Queue, HashMap}
 import _root_.net.liftweb.util._
+import _root_.net.liftweb.base._
+import _root_.net.liftweb.actor._
 
 /**
  *  This trait manages state/workflow transition
@@ -304,69 +306,54 @@ trait MetaProtoStateMachine [MyType <: ProtoStateMachine[MyType, StateType],
     */
   def timedEventPeriodicWait = 10000L
 
-  private class TimedEventManager(val metaOwner: Meta) extends Actor {
-    def act = {
-      ActorPing.schedule(this, Ping, TimeSpan(timedEventInitialWait)) // give the system 2 minutes to "warm up" then start pinging
-      loop
-    }
+  private class TimedEventManager(val metaOwner: Meta) extends LiftActor {
+    ActorPing.schedule(this, Ping, TimeSpan(timedEventInitialWait)) // give the system 2 minutes to "warm up" then start pinging
 
-    def loop {
-      react {
+    protected def messageHandler = 
+      {
         case Ping =>
-        val now = System.currentTimeMillis
+          val now = System.currentTimeMillis
         try {
-        val name = metaOwner.nextTransitionAt.dbColumnName
-        metaOwner.findAll(By(metaOwner.inProcess, false),
-			  BySql(name+" > 0 AND "+name+" <= ?",
-				IHaveValidatedThisSQL("dpp", "2008/12/03"),
-				now)).foreach {
-          stateItem =>
-          stateItem.inProcess(true).save
-          val event = TimerEvent(TimeSpan(now - stateItem.timedEventAt.is))
-          timedEventHandler ! (stateItem, event)
-        }
+          val name = metaOwner.nextTransitionAt.dbColumnName
+          metaOwner.findAll(By(metaOwner.inProcess, false),
+			    BySql(name+" > 0 AND "+name+" <= ?",
+				  IHaveValidatedThisSQL("dpp", "2008/12/03"),
+				  now)).foreach {
+			      stateItem =>
+				stateItem.inProcess(true).save
+			      val event = TimerEvent(TimeSpan(now - stateItem.timedEventAt.is))
+			      timedEventHandler ! (stateItem, event)
+			    }
         } catch {
           case e => Log.error("State machine loop", e)
         }
         ActorPing.schedule(this, Ping, TimeSpan(timedEventPeriodicWait))
-        loop
-
-        case _ => loop
       }
-    }
-
+    
     case object Ping
   }
-
-    private class TimedEventHandler(val metaOwner: Meta) extends Actor {
-      def act = loop
-
-      def loop {
-        react {
+			       
+    private class TimedEventHandler(val metaOwner: Meta) extends LiftActor {
+      protected def messageHandler =
+        {
           case (item: MyType, event: Event) =>
-          try {
-          item.processEvent(event)
-          } catch {
-            case e => Log.error("Timed Event Handler"+e)
-          }
-          loop
-
-          case _ => loop
+            try {
+              item.processEvent(event)
+            } catch {
+              case e => Log.error("Timed Event Handler"+e)
+            }
         }
-      }
 
       case object Ping
     }
 
   val timedEventManager: Actor = {
     val ret = new TimedEventManager(getSingleton)
-    ret.start
     ret
   }
 
   val timedEventHandler: Actor = {
     val ret = new TimedEventHandler(getSingleton)
-    ret.start
     ret
   }
 }

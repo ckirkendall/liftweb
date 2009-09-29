@@ -4,7 +4,8 @@ import net.liftweb.mapper.{Mapper,
                            MappedField
 }
 
-import net.liftweb.util.{Full, Box, Helpers, BindHelpers}
+import net.liftweb.base.{Full, Box}
+import net.liftweb.util.{Helpers, BindHelpers}
 
 import Helpers._
 
@@ -32,10 +33,8 @@ object Util {
   def bindFields[T <: Mapper[T]](mapper: T, nsfn: MappedField[_,T]=>NodeSeq): NodeSeq=>NodeSeq = {
     case xml.Elem(_, name, _, _, _*) => 
       mapper.fieldByName(name) match {
-        case _: net.liftweb.util.EmptyBox[_] =>
-          xml.Group(Seq.empty)
-        case Full(field) =>
-          nsfn(field)
+        case Full(field) => nsfn(field)
+        case _ => NodeSeq.Empty
       }
     case ns => ns
   }

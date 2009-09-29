@@ -18,6 +18,7 @@ package net.liftweb.http.jquery
 
 import _root_.net.liftweb.http.S._
 import _root_.net.liftweb.http.SHtml._
+import _root_.net.liftweb.base._
 import _root_.net.liftweb.util._
 import _root_.net.liftweb.util.Helpers._
 import _root_.net.liftweb.http.js._

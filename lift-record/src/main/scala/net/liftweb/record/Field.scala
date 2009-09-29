@@ -13,6 +13,7 @@
 
 package net.liftweb.record
 
+import net.liftweb.base._
 import net.liftweb.util._
 import net.liftweb.http.{S}
 import net.liftweb.http.js.{JsExp}

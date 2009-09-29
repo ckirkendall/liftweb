@@ -3,6 +3,7 @@ package net.liftweb.http.provider.servlet
 import _root_.javax.servlet._
 import _root_.javax.servlet.http._
 
+import _root_.net.liftweb.base._
 import _root_.net.liftweb.util._
 import _root_.net.liftweb.http._
 import Helpers._

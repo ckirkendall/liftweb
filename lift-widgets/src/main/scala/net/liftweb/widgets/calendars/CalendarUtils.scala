@@ -17,6 +17,7 @@
 package net.liftweb.widgets.calendars;
 
 import _root_.net.liftweb.http.js._
+import _root_.net.liftweb.base._
 import _root_.net.liftweb.util._
 import _root_.net.liftweb.http.js.JE._
 import _root_.net.liftweb.http.js.JsCmds._
