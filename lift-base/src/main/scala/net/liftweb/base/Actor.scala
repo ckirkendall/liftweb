@@ -24,17 +24,48 @@ trait SimplestActor extends SimpleActor[Any]
 
 trait TypedActor[T, R] extends SimpleActor[T] {
   def !?(param: T): R
-  def !?(timeout: Long, param: T): Option[R]
+  def !?(param: T, timeout: Long): Option[R]
   def !!(param: T): Future[R]
+}
+
+/**
+ * Generic Actor interface. Can send and receive any type of message.
+ */
+trait GenericActor extends SimpleActor[Any] {
+  /**
+   * Asynchronous message send. Fire-and-forget.
+   */
+  def !(message: Any): Unit
+
+  /**
+   * Emulates a synchronous call. Waits indefinitely on a Future for the reply.
+   */
+  def !?[R](message: Any): R
+
+  /**
+   * Asynchronous message send. Send-and-receive eventually. Waits on a Future for the reply message. 
+   * If recevied within the Actor default timeout interval then it returns Some(result) and if a timeout 
+   * has occured None. 
+   */
+  def !![R](message: Any): Option[R]
+
+  /**
+   * Asynchronous message send. Send-and-receive eventually. Waits on a Future for the reply message. 
+   * If recevied within timout interval that is specified then it returns Some(result) and if a timeout 
+   * has occured None. 
+   */
+  def !![R](message: Any, timeout: Long): Option[R]
+
+  /**
+   * Starts the Actor.
+   */
+  def start: Unit
+
+  /**
+   * Stops the Actor.
+   */
+  def stop: Unit
 }
 
 trait Future[T]
 
-trait Actor extends SimpleActor[Any] {
-  def !(message: Any): Unit
-  def !?[T](message: Any): T
-  def !![R](message: Any): Option[R]
-  def !![R](message: Any, timeout: Long): Option[R]
-  def start: Unit
-  def stop: Unit
-}
