@@ -35,12 +35,12 @@ trait ProtoUser[T <: ProtoUser[T]] extends KeyedMapper[Long, T] with UserIdAsStr
   override def primaryKeyField = id
 
   // the primary key for the database
-  object id extends MappedLongIndex(this)
+  lazy val id = new MappedLongIndex(this) {}
 
   def userIdAsString: String = id.is.toString
 
   // First Name
-  object firstName extends MappedString(this, 32) {
+  lazy val firstName = new MappedString(this, 32) {
     override def displayName = fieldOwner.firstNameDisplayName
     override val fieldId = Some(Text("txtFirstName"))
   }
@@ -48,7 +48,7 @@ trait ProtoUser[T <: ProtoUser[T]] extends KeyedMapper[Long, T] with UserIdAsStr
   def firstNameDisplayName = ??("First Name")
 
   // Last Name
-  object lastName extends MappedString(this, 32) {
+  lazy val lastName = new MappedString(this, 32) {
     override def displayName = fieldOwner.lastNameDisplayName
     override val fieldId = Some(Text("txtLastName"))
   }
@@ -56,7 +56,7 @@ trait ProtoUser[T <: ProtoUser[T]] extends KeyedMapper[Long, T] with UserIdAsStr
   def lastNameDisplayName = ??("Last Name")
 
   // Email
-  object email extends MappedEmail(this, 48) {
+  lazy val email = new MappedEmail(this, 48) {
     override def dbIndexed_? = true
     override def validations = valUnique(S.??("unique.email.address")) _ :: super.validations
     override def displayName = fieldOwner.emailDisplayName
@@ -65,13 +65,13 @@ trait ProtoUser[T <: ProtoUser[T]] extends KeyedMapper[Long, T] with UserIdAsStr
 
   def emailDisplayName = ??("Email")
   // Password
-  object password extends MappedPassword[T](this) {
+  lazy val password = new MappedPassword[T](this) {
     override def displayName = fieldOwner.passwordDisplayName
   }
 
   def passwordDisplayName = ??("Password")
 
-  object superUser extends MappedBoolean(this) {
+  lazy val superUser = new MappedBoolean(this) {
     override def defaultValue = false
   }
 
@@ -642,22 +642,22 @@ trait MetaMegaProtoUser[ModelType <: MegaProtoUser[ModelType]] extends KeyedMeta
 
 trait MegaProtoUser[T <: MegaProtoUser[T]] extends ProtoUser[T] {
   self: T =>
-  object uniqueId extends MappedUniqueId(this, 32) {
+  lazy val uniqueId = new MappedUniqueId(this, 32) {
     override def dbIndexed_? = true
     override def writePermission_?  = true
   }
 
-  object validated extends MappedBoolean[T](this) {
+  lazy val validated = new MappedBoolean[T](this) {
     override def defaultValue = false
     override val fieldId = Some(Text("txtValidated"))
   }
 
-  object locale extends MappedLocale[T](this) {
+  lazy val locale = new MappedLocale[T](this) {
     override def displayName = fieldOwner.localeDisplayName
     override val fieldId = Some(Text("txtLocale"))
   }
 
-  object timezone extends MappedTimeZone[T](this) {
+  lazy val timezone = new MappedTimeZone[T](this) {
     override def displayName = fieldOwner.timezoneDisplayName
     override val fieldId = Some(Text("txtTimeZone"))
   }
